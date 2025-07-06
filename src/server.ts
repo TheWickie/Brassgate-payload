@@ -16,6 +16,9 @@ import payload from 'payload'
 const app = express()
 const PORT = process.env.PORT || 3000
 
+// ✅ Serve uploaded media from /mnt/data/media
+app.use('/media', express.static('/mnt/data/media'))
+
 const start = async (): Promise<void> => {
   await payload.init({
     express: app,
