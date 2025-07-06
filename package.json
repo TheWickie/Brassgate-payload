@@ -8,6 +8,7 @@
     "node": ">=16 <21"
   },
   "scripts": {
+    "postinstall": "npm rebuild sharp --platform=linux --arch=x64",
     "dev": "cross-env PAYLOAD_CONFIG_PATH=src/payload/payload.config.ts nodemon",
     "build:payload": "cross-env PAYLOAD_CONFIG_PATH=src/payload/payload.config.ts payload build",
     "build:server": "tsc --project tsconfig.server.json",
