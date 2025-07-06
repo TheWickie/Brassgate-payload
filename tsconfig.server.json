@@ -3,7 +3,8 @@
     "jsx": "react",
     "module": "commonjs",
     "noEmit": false,
-    "outDir": "dist"
+    "outDir": "dist",
+    "rootDir": "src"
   },
   "extends": "./tsconfig.json",
   "include": ["src/server.ts", "src/payload/payload.config.ts"]
