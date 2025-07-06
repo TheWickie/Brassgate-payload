@@ -24,8 +24,7 @@ const start = async (): Promise<void> => {
     express: app,
     onInit: async () => {
       payload.logger.info(`Payload Admin URL: ${payload.getAdminURL()}`)
-
-      await seed()
+//  await seed()
     },
     secret: process.env.PAYLOAD_SECRET || '',
   })
