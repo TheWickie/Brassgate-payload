@@ -13,7 +13,8 @@ import { buildConfig } from 'payload/config'
 
 import Categories from './collections/Categories'
 import Comments from './collections/Comments'
-import { Media } from './collections/Media'
+
+// ✅ Replaced Media import with inline config below
 import { Pages } from './collections/Pages'
 import { Posts } from './collections/Posts'
 import { Projects } from './collections/Projects'
@@ -30,6 +31,26 @@ const generateTitle: GenerateTitle = () => {
 }
 
 const m = path.resolve(__dirname, './emptyModuleMock.js')
+
+// ✅ Custom Media collection using /mnt/data/media
+const Media = {
+  slug: 'media',
+  upload: {
+    staticDir: '/mnt/data/media',
+    staticURL: '/media',
+    mimeTypes: ['image/*'],
+  },
+  access: {
+    read: () => true,
+    create: () => true,
+    update: () => true,
+    delete: () => true,
+  },
+  admin: {
+    useAsTitle: 'filename',
+  },
+  fields: [],
+}
 
 export default buildConfig({
   admin: {
@@ -77,21 +98,18 @@ export default buildConfig({
     schemaOutputFile: path.resolve(__dirname, 'generated-schema.graphql'),
   },
   rateLimit: {
-    max: 10000, // limit each IP per windowMs
+    max: 10000,
     trustProxy: true,
-    window: 2 * 60 * 1000, // 2 minutes
+    window: 2 * 60 * 1000,
   },
   serverURL: process.env.PAYLOAD_PUBLIC_SERVER_URL,
   typescript: {
     outputFile: path.resolve(__dirname, 'payload-types.ts'),
   },
-  // database-adapter-config-start
   db: mongooseAdapter({
     url: process.env.DATABASE_URI,
   }),
-  // database-adapter-config-end
   plugins: [
-    // formBuilder({}),
     redirects({
       collections: ['pages', 'posts'],
     }),
