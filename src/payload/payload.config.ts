@@ -19,14 +19,15 @@ import BeforeLogin from './components/BeforeLogin'
 // 📦 Collections
 import Categories from './collections/Categories'
 import Comments from './collections/Comments'
-import Documents from './collections/Documents'
-import GeneratedPosts from './collections/GeneratedPosts'
-import PostPlans from './collections/PostPlans'
+import { Documents } from './collections/Documents'
+import { GeneratedPosts } from './collections/GeneratedPosts'
+import { PostPlans } from './collections/PostPlans'
 import { Pages } from './collections/Pages'
 import { Posts } from './collections/Posts'
 import { Projects } from './collections/Projects'
-import StylePrompts from './collections/StylePrompts'
-import Users from './collections/Users'
+import { StylePrompts } from './collections/StylePrompts'
+import { Media } from './collections/Media'
+import { Users } from './collections/Users'
 
 // 🌐 Globals + Endpoints
 import { clearDBEndpoint, resetDBEndpoint, seedDBEndpoint } from './endpoints/resetDB'
@@ -39,26 +40,6 @@ const generateTitle: GenerateTitle = () => {
 }
 
 const m = path.resolve(__dirname, './emptyModuleMock.js')
-
-// ✅ Custom Media collection using /mnt/data/media
-const Media = {
-  slug: 'media',
-  upload: {
-    staticDir: '/mnt/data/media',
-    staticURL: '/media',
-    mimeTypes: ['image/*'],
-  },
-  access: {
-    read: () => true,
-    create: () => true,
-    update: () => true,
-    delete: () => true,
-  },
-  admin: {
-    useAsTitle: 'filename',
-  },
-  fields: [],
-}
 
 export default buildConfig({
   admin: {
