@@ -11,13 +11,13 @@ export const Documents: CollectionConfig = {
     {
       name: 'title',
       type: 'text',
-      required: true,
+      required: true,           // still require a human-friendly title
     },
     {
       name: 'file',
       type: 'upload',
-      relationTo: 'media',    // your media slug
-      required: true,
+      relationTo: 'media',
+      required: true,           // must upload something
       admin: {
         description: 'Upload the PDF or txt document here.',
       },
@@ -25,26 +25,40 @@ export const Documents: CollectionConfig = {
     {
       name: 'filename',
       type: 'text',
-      required: true,
+      // no longer `required`—we auto-fill it below
+      admin: {
+        position: 'sidebar',
+        readOnly: true,
+      },
     },
     {
       name: 'chunkCount',
       type: 'number',
-      required: true,
-      min: 1,
+      // remove `required`; default to zero until backend updates it
+      defaultValue: 0,
+      admin: {
+        position: 'sidebar',
+        readOnly: true,
+      },
     },
     {
       name: 'source',
       type: 'select',
       options: ['Uploaded', 'Manual', 'Merged'],
-      defaultValue: 'Uploaded',
+      defaultValue: 'Uploaded',  // sensible default
       required: true,
+      admin: {
+        position: 'sidebar',
+      },
     },
     {
       name: 'approved',
       type: 'checkbox',
       label: 'Approved for Use',
       defaultValue: false,
+      admin: {
+        position: 'sidebar',
+      },
     },
     {
       name: 'tags',
