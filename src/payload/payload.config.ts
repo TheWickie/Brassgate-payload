@@ -11,9 +11,12 @@ import { lexicalEditor } from '@payloadcms/richtext-lexical'
 import path from 'path'
 import { buildConfig } from 'payload/config'
 
+// 🧩 Admin UI components
 import BeforeDashboard from './components/BeforeDashboard'
+import BulkImageUploader from './components/BulkImageUploader'
 import BeforeLogin from './components/BeforeLogin'
 
+// 📦 Collections
 import Categories from './collections/Categories'
 import Comments from './collections/Comments'
 import Documents from './collections/Documents'
@@ -25,8 +28,8 @@ import { Projects } from './collections/Projects'
 import StylePrompts from './collections/StylePrompts'
 import Users from './collections/Users'
 
+// 🌐 Globals + Endpoints
 import { clearDBEndpoint, resetDBEndpoint, seedDBEndpoint } from './endpoints/resetDB'
-
 import { Footer } from './globals/Footer'
 import { Header } from './globals/Header'
 import { Settings } from './globals/Settings'
@@ -66,7 +69,7 @@ export default buildConfig({
     },
     bundler: webpackBundler(),
     components: {
-      beforeDashboard: [BeforeDashboard],
+      beforeDashboard: [BeforeDashboard, BulkImageUploader],
       beforeLogin: [BeforeLogin],
     },
     livePreview: {
@@ -103,7 +106,7 @@ export default buildConfig({
     GeneratedPosts,
     Categories,
     Users,
-    Comments
+    Comments,
   ],
   cors: [process.env.PAYLOAD_PUBLIC_SERVER_URL || ''].filter(Boolean),
   csrf: [process.env.PAYLOAD_PUBLIC_SERVER_URL || ''].filter(Boolean),
