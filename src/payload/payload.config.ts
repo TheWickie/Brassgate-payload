@@ -2,7 +2,6 @@ import { webpackBundler } from '@payloadcms/bundler-webpack';
 import { mongooseAdapter } from '@payloadcms/db-mongodb';
 import type { GenerateTitle } from '@payloadcms/plugin-seo/types';
 
-import { payloadCloud } from '@payloadcms/plugin-cloud';
 // import formBuilder from '@payloadcms/plugin-form-builder'
 import nestedDocs from '@payloadcms/plugin-nested-docs';
 import redirects from '@payloadcms/plugin-redirects';
@@ -44,11 +43,6 @@ const m = path.resolve(__dirname, './emptyModuleMock.js');
 
 export default buildConfig({
   admin: {
-    autoLogin: {
-      email: 'demo@payloadcms.com',
-      password: 'demo',
-      prefillOnly: true,
-    },
     bundler: webpackBundler(),
     components: {
       beforeDashboard: [BeforeDashboard, BulkImageUploader],
@@ -124,6 +118,5 @@ export default buildConfig({
       generateTitle,
       uploadsCollection: 'media',
     }),
-    payloadCloud(),
   ],
 });
