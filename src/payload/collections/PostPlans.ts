@@ -1,6 +1,6 @@
 import { CollectionConfig } from 'payload/types'
 
-const PostPlans: CollectionConfig = {
+export const PostPlans: CollectionConfig = {
   slug: 'post-plans',
   admin: {
     useAsTitle: 'name',
