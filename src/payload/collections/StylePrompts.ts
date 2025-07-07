@@ -1,6 +1,6 @@
 import { CollectionConfig } from 'payload/types'
 
-const StylePrompts: CollectionConfig = {
+export const StylePrompts: CollectionConfig = {
   slug: 'style-prompts',
   admin: {
     useAsTitle: 'title',
