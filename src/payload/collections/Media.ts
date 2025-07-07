@@ -19,7 +19,10 @@ export const Media: CollectionConfig = {
   hooks: {
     afterChange: [
       async ({ doc }) => {
-        if (!doc.url) return
+        // Only process images
+        if (!doc.url || !doc.mimeType?.startsWith('image/')) {
+          return
+        }
         await fetch(`${process.env.API_BASE_URL}/image-upload-webhook/`, {
           method: 'POST',
           headers: {
