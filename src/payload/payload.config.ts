@@ -28,6 +28,7 @@ import { Projects } from './collections/Projects'
 import { StylePrompts } from './collections/StylePrompts'
 import { Media } from './collections/Media'
 import { Users } from './collections/Users'
+import { Tags } from './collections/Tags' // ✅ NEW
 
 // 🌐 Globals + Endpoints
 import { clearDBEndpoint, resetDBEndpoint, seedDBEndpoint } from './endpoints/resetDB'
@@ -86,6 +87,7 @@ export default buildConfig({
     PostPlans,
     GeneratedPosts,
     Categories,
+    Tags, // ✅ NEW
     Users,
     Comments,
   ],
