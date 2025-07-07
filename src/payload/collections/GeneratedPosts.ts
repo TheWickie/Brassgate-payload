@@ -1,6 +1,6 @@
 import { CollectionConfig } from 'payload/types'
 
-const GeneratedPosts: CollectionConfig = {
+export const GeneratedPosts: CollectionConfig = {
   slug: 'generated-posts',
   admin: {
     useAsTitle: 'platform',
