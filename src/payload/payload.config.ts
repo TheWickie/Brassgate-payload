@@ -13,8 +13,8 @@ import { buildConfig } from 'payload/config'
 
 import Categories from './collections/Categories'
 import Comments from './collections/Comments'
+import Documents from './collections/Documents' // ✅ New import
 
-// ✅ Replaced Media import with inline config below
 import { Pages } from './collections/Pages'
 import { Posts } from './collections/Posts'
 import { Projects } from './collections/Projects'
@@ -87,7 +87,16 @@ export default buildConfig({
       },
     }),
   },
-  collections: [Pages, Posts, Projects, Media, Categories, Users, Comments],
+  collections: [
+    Pages,
+    Posts,
+    Projects,
+    Media,
+    Documents, // ✅ Add the new collection here
+    Categories,
+    Users,
+    Comments
+  ],
   cors: [process.env.PAYLOAD_PUBLIC_SERVER_URL || ''].filter(Boolean),
   csrf: [process.env.PAYLOAD_PUBLIC_SERVER_URL || ''].filter(Boolean),
   editor: lexicalEditor({}),
