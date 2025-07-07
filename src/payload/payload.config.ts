@@ -1,5 +1,5 @@
-import { webpackBundler } from '@payloadcms/bundler-webpack' // bundler-import
-import { mongooseAdapter } from '@payloadcms/db-mongodb' // database-adapter-import
+import { webpackBundler } from '@payloadcms/bundler-webpack'
+import { mongooseAdapter } from '@payloadcms/db-mongodb'
 import type { GenerateTitle } from '@payloadcms/plugin-seo/types'
 
 import { payloadCloud } from '@payloadcms/plugin-cloud'
@@ -11,17 +11,22 @@ import { lexicalEditor } from '@payloadcms/richtext-lexical'
 import path from 'path'
 import { buildConfig } from 'payload/config'
 
+import BeforeDashboard from './components/BeforeDashboard'
+import BeforeLogin from './components/BeforeLogin'
+
 import Categories from './collections/Categories'
 import Comments from './collections/Comments'
-import Documents from './collections/Documents' // ✅ New import
-
+import Documents from './collections/Documents'
+import GeneratedPosts from './collections/GeneratedPosts'
+import PostPlans from './collections/PostPlans'
 import { Pages } from './collections/Pages'
 import { Posts } from './collections/Posts'
 import { Projects } from './collections/Projects'
+import StylePrompts from './collections/StylePrompts'
 import Users from './collections/Users'
-import BeforeDashboard from './components/BeforeDashboard'
-import BeforeLogin from './components/BeforeLogin'
+
 import { clearDBEndpoint, resetDBEndpoint, seedDBEndpoint } from './endpoints/resetDB'
+
 import { Footer } from './globals/Footer'
 import { Header } from './globals/Header'
 import { Settings } from './globals/Settings'
@@ -59,7 +64,7 @@ export default buildConfig({
       password: 'demo',
       prefillOnly: true,
     },
-    bundler: webpackBundler(), // bundler-config
+    bundler: webpackBundler(),
     components: {
       beforeDashboard: [BeforeDashboard],
       beforeLogin: [BeforeLogin],
@@ -92,7 +97,10 @@ export default buildConfig({
     Posts,
     Projects,
     Media,
-    Documents, // ✅ Add the new collection here
+    Documents,
+    StylePrompts,
+    PostPlans,
+    GeneratedPosts,
     Categories,
     Users,
     Comments
