@@ -12,6 +12,15 @@ export const Documents: CollectionConfig = {
       required: true,
     },
     {
+      name: 'file',
+      type: 'upload',
+      relationTo: 'media',    // assumes your media slug is 'media'
+      required: true,
+      admin: {
+        description: 'Upload the PDF or txt document here.',
+      },
+    },
+    {
       name: 'filename',
       type: 'text',
       required: true,
