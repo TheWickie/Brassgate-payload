@@ -1,34 +1,38 @@
 import type { CollectionConfig } from 'payload/types'
-
-import { LinkFeature, lexicalEditor } from '@payloadcms/richtext-lexical'
 import path from 'path'
+import { lexicalEditor, LinkFeature } from '@payloadcms/richtext-lexical'
 
 export const Media: CollectionConfig = {
+  slug: 'media',
+  upload: {
+    staticDir: '/mnt/data/media', // works with Render persistent disk
+    staticURL: '/media',
+    mimeTypes: ['image/*'],
+  },
   access: {
     create: () => true,
+    update: () => true,
     delete: () => true,
     read: () => true,
-    update: () => true,
   },
   admin: {
-    description: 'Creating, updating, and deleting media is disabled for this demo.',
+    useAsTitle: 'filename',
   },
   fields: [
     {
       name: 'alt',
-      required: true,
       type: 'text',
+      required: true,
     },
     {
       name: 'caption',
-      editor: lexicalEditor({
-        features: ({ defaultFeatures }) => [LinkFeature({})],
-      }),
       type: 'richText',
+      editor: lexicalEditor({
+        features: ({ defaultFeatures }) => [
+          ...defaultFeatures,
+          LinkFeature({}),
+        ],
+      }),
     },
   ],
-  slug: 'media',
-  upload: {
-    staticDir: path.resolve(__dirname, '../../../media'),
-  },
 }
