@@ -29,7 +29,7 @@ import { Tags } from './collections/Tags';
 import { Users } from './collections/Users';
 
 // 📡 Custom endpoints
-import fastapiProxy from './endpoints/fastapiProxy';
+import fastapiProxy from '../endpoints/fastapiProxy';  // updated path
 
 // 🌐 Globals
 import { Footer } from './globals/Footer';
