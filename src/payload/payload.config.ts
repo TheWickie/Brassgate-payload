@@ -2,7 +2,6 @@ import { webpackBundler } from '@payloadcms/bundler-webpack';
 import { mongooseAdapter } from '@payloadcms/db-mongodb';
 import type { GenerateTitle } from '@payloadcms/plugin-seo/types';
 
-// import formBuilder from '@payloadcms/plugin-form-builder'
 import nestedDocs from '@payloadcms/plugin-nested-docs';
 import redirects from '@payloadcms/plugin-redirects';
 import seo from '@payloadcms/plugin-seo';
@@ -29,15 +28,15 @@ import { Media } from './collections/Media';
 import { Tags } from './collections/Tags';
 import { Users } from './collections/Users';
 
+// 📡 Custom endpoints
+import fastapiProxy from './endpoints/fastapiProxy';
+
 // 🌐 Globals
-// import { clearDBEndpoint, resetDBEndpoint, seedDBEndpoint } from './endpoints/resetDB'
 import { Footer } from './globals/Footer';
 import { Header } from './globals/Header';
 import { Settings } from './globals/Settings';
 
-const generateTitle: GenerateTitle = () => {
-  return 'Payload Public Demo';
-};
+const generateTitle: GenerateTitle = () => 'BrassGate Admin';
 
 const m = path.resolve(__dirname, './emptyModuleMock.js');
 
@@ -50,12 +49,7 @@ export default buildConfig({
     },
     livePreview: {
       breakpoints: [
-        {
-          name: 'mobile',
-          height: 667,
-          label: 'Mobile',
-          width: 375,
-        },
+        { name: 'mobile', height: 667, label: 'Mobile', width: 375 },
       ],
     },
     user: Users.slug,
@@ -71,6 +65,9 @@ export default buildConfig({
       },
     }),
   },
+  serverURL: process.env.PAYLOAD_PUBLIC_SERVER_URL,
+  cors: [process.env.PAYLOAD_PUBLIC_SERVER_URL || ''].filter(Boolean),
+  csrf: [process.env.PAYLOAD_PUBLIC_SERVER_URL || ''].filter(Boolean),
   collections: [
     Pages,
     Posts,
@@ -85,10 +82,6 @@ export default buildConfig({
     Users,
     Comments,
   ],
-  cors: [process.env.PAYLOAD_PUBLIC_SERVER_URL || ''].filter(Boolean),
-  csrf: [process.env.PAYLOAD_PUBLIC_SERVER_URL || ''].filter(Boolean),
-  editor: lexicalEditor({}),
-  // endpoints: [resetDBEndpoint, seedDBEndpoint, clearDBEndpoint],
   globals: [Settings, Header, Footer],
   graphQL: {
     disablePlaygroundInProduction: false,
@@ -99,7 +92,6 @@ export default buildConfig({
     trustProxy: true,
     window: 2 * 60 * 1000,
   },
-  serverURL: process.env.PAYLOAD_PUBLIC_SERVER_URL,
   typescript: {
     outputFile: path.resolve(__dirname, 'payload-types.ts'),
   },
@@ -107,16 +99,14 @@ export default buildConfig({
     url: process.env.DATABASE_URI,
   }),
   plugins: [
-    redirects({
-      collections: ['pages', 'posts'],
-    }),
-    nestedDocs({
-      collections: ['categories'],
-    }),
+    redirects({ collections: ['pages', 'posts'] }),
+    nestedDocs({ collections: ['categories'] }),
     seo({
       collections: ['pages', 'posts', 'projects'],
       generateTitle,
       uploadsCollection: 'media',
     }),
   ],
+  // Register the proxy endpoint for secure FastAPI calls
+  endpoints: [fastapiProxy],
 });
