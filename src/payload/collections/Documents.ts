@@ -1,3 +1,5 @@
+// collections/Documents.ts
+
 import { CollectionConfig } from 'payload/types'
 
 export const Documents: CollectionConfig = {
@@ -14,7 +16,7 @@ export const Documents: CollectionConfig = {
     {
       name: 'file',
       type: 'upload',
-      relationTo: 'media',    // assumes your media slug is 'media'
+      relationTo: 'media',    // your media slug
       required: true,
       admin: {
         description: 'Upload the PDF or txt document here.',
@@ -65,6 +67,34 @@ export const Documents: CollectionConfig = {
       },
     },
   ],
+  hooks: {
+    beforeChange: [
+      ({ data }) => {
+        // Auto-fill the filename text field from the uploaded file
+        if (data.file?.filename) {
+          data.filename = data.file.filename
+        }
+        return data
+      },
+    ],
+    afterChange: [
+      async ({ doc }) => {
+        if (!doc.file?.url) return
+        // Fetch the file binary from Payload, then forward it to FastAPI
+        const response = await fetch(doc.file.url)
+        const blob = await response.blob()
+        const form = new FormData()
+        form.append('file', blob, doc.file.filename)
+        await fetch(`${process.env.API_BASE_URL}/upload/`, {
+          method: 'POST',
+          headers: {
+            'X-API-KEY': process.env.FASTAPI_API_KEY,
+          },
+          body: form,
+        })
+      },
+    ],
+  },
 }
 
 export default Documents
