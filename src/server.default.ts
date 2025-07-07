@@ -28,7 +28,7 @@ const start = async (): Promise<void> => {
       // Clear and reset database on server start
       // NOTE - this is only for demo purposes and should not be used
       // for production sites with real data
-      await seed()
+    //  await seed()
     },
     secret: process.env.PAYLOAD_SECRET || '',
   })
