@@ -1,46 +1,46 @@
-import { webpackBundler } from '@payloadcms/bundler-webpack'
-import { mongooseAdapter } from '@payloadcms/db-mongodb'
-import type { GenerateTitle } from '@payloadcms/plugin-seo/types'
+import { webpackBundler } from '@payloadcms/bundler-webpack';
+import { mongooseAdapter } from '@payloadcms/db-mongodb';
+import type { GenerateTitle } from '@payloadcms/plugin-seo/types';
 
-import { payloadCloud } from '@payloadcms/plugin-cloud'
+import { payloadCloud } from '@payloadcms/plugin-cloud';
 // import formBuilder from '@payloadcms/plugin-form-builder'
-import nestedDocs from '@payloadcms/plugin-nested-docs'
-import redirects from '@payloadcms/plugin-redirects'
-import seo from '@payloadcms/plugin-seo'
-import { lexicalEditor } from '@payloadcms/richtext-lexical'
-import path from 'path'
-import { buildConfig } from 'payload/config'
+import nestedDocs from '@payloadcms/plugin-nested-docs';
+import redirects from '@payloadcms/plugin-redirects';
+import seo from '@payloadcms/plugin-seo';
+import { lexicalEditor } from '@payloadcms/richtext-lexical';
+import path from 'path';
+import { buildConfig } from 'payload/config';
 
 // 🧩 Admin UI components
-import BeforeDashboard from './components/BeforeDashboard'
-import BulkImageUploader from './components/BulkImageUploader'
-import BeforeLogin from './components/BeforeLogin'
+import BeforeDashboard from './components/BeforeDashboard';
+import BulkImageUploader from './components/BulkImageUploader';
+import BeforeLogin from './components/BeforeLogin';
 
 // 📦 Collections
-import Categories from './collections/Categories'
-import Comments from './collections/Comments'
-import { Documents } from './collections/Documents'
-import { GeneratedPosts } from './collections/GeneratedPosts'
-import { PostPlans } from './collections/PostPlans'
-import { Pages } from './collections/Pages'
-import { Posts } from './collections/Posts'
-import { Projects } from './collections/Projects'
-import { StylePrompts } from './collections/StylePrompts'
-import { Media } from './collections/Media'
-import { Users } from './collections/Users'
-import { Tags } from './collections/Tags' // ✅ NEW
+import Categories from './collections/Categories';
+import Comments from './collections/Comments';
+import { Documents } from './collections/Documents';
+import { GeneratedPosts } from './collections/GeneratedPosts';
+import { PostPlans } from './collections/PostPlans';
+import { Pages } from './collections/Pages';
+import { Posts } from './collections/Posts';
+import { Projects } from './collections/Projects';
+import { StylePrompts } from './collections/StylePrompts';
+import { Media } from './collections/Media';
+import { Tags } from './collections/Tags';
+import { Users } from './collections/Users';
 
-// 🌐 Globals + Endpoints
-import { clearDBEndpoint, resetDBEndpoint, seedDBEndpoint } from './endpoints/resetDB'
-import { Footer } from './globals/Footer'
-import { Header } from './globals/Header'
-import { Settings } from './globals/Settings'
+// 🌐 Globals
+// import { clearDBEndpoint, resetDBEndpoint, seedDBEndpoint } from './endpoints/resetDB'
+import { Footer } from './globals/Footer';
+import { Header } from './globals/Header';
+import { Settings } from './globals/Settings';
 
 const generateTitle: GenerateTitle = () => {
-  return 'Payload Public Demo'
-}
+  return 'Payload Public Demo';
+};
 
-const m = path.resolve(__dirname, './emptyModuleMock.js')
+const m = path.resolve(__dirname, './emptyModuleMock.js');
 
 export default buildConfig({
   admin: {
@@ -86,15 +86,15 @@ export default buildConfig({
     StylePrompts,
     PostPlans,
     GeneratedPosts,
+    Tags,
     Categories,
-    Tags, // ✅ NEW
     Users,
     Comments,
   ],
   cors: [process.env.PAYLOAD_PUBLIC_SERVER_URL || ''].filter(Boolean),
   csrf: [process.env.PAYLOAD_PUBLIC_SERVER_URL || ''].filter(Boolean),
   editor: lexicalEditor({}),
-  endpoints: [resetDBEndpoint, seedDBEndpoint, clearDBEndpoint],
+  // endpoints: [resetDBEndpoint, seedDBEndpoint, clearDBEndpoint],
   globals: [Settings, Header, Footer],
   graphQL: {
     disablePlaygroundInProduction: false,
@@ -126,4 +126,4 @@ export default buildConfig({
     }),
     payloadCloud(),
   ],
-})
+});
