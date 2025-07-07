@@ -1,13 +1,11 @@
-import type { CollectionConfig } from 'payload/types'
-import path from 'path'
+import { CollectionConfig } from 'payload/types'
 import { lexicalEditor, LinkFeature } from '@payloadcms/richtext-lexical'
 
 export const Media: CollectionConfig = {
   slug: 'media',
   upload: {
-    staticDir: '/mnt/data/media', // works with Render persistent disk
-    staticURL: '/media',
-    mimeTypes: ['image/*'],
+    staticDir: 'uploads',
+    // … any other upload config you had …
   },
   access: {
     create: () => true,
@@ -17,6 +15,24 @@ export const Media: CollectionConfig = {
   },
   admin: {
     useAsTitle: 'filename',
+  },
+  hooks: {
+    afterChange: [
+      async ({ doc }) => {
+        if (!doc.url) return
+        await fetch(`${process.env.API_BASE_URL}/image-upload-webhook/`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'X-API-KEY': process.env.FASTAPI_API_KEY,
+          },
+          body: JSON.stringify({
+            filename: doc.url,
+            caption: '',
+          }),
+        })
+      },
+    ],
   },
   fields: [
     {
@@ -36,3 +52,5 @@ export const Media: CollectionConfig = {
     },
   ],
 }
+
+export default Media
