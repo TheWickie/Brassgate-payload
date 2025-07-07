@@ -1,8 +1,7 @@
-import React, { useState } from 'react';
-import { useField } from 'payload/components/forms';
-import './uploader.css';
+// components/BulkImageUploader.tsx
 
-const backend = 'https://brassgate-backend.onrender.com';
+import React, { useState } from 'react';
+import './uploader.css';
 
 const BulkImageUploader: React.FC = () => {
   const [files, setFiles] = useState<File[]>([]);
@@ -19,30 +18,26 @@ const BulkImageUploader: React.FC = () => {
   const handleUpload = async () => {
     for (const file of files) {
       try {
-        logMessage(`📤 Uploading ${file.name}...`);
+        logMessage(`📤 Queuing ${file.name}...`);
 
         const formData = new FormData();
         formData.append('file', file);
 
-        const upRes = await fetch(`${backend}/image-upload/`, { method: 'POST', body: formData });
+        // Upload via our server‐side proxy endpoint
+        const upRes = await fetch('/api/proxy/image-upload', {
+          method: 'POST',
+          body: formData,
+        });
         const upData = await upRes.json();
         if (!upRes.ok) throw new Error(upData.error || 'Upload failed');
 
         const filename = upData.filename;
-        logMessage(`✅ Uploaded as ${filename}`);
-
-        const capRes = await fetch(`${backend}/caption-image/${encodeURIComponent(filename)}`);
-        const capData = await capRes.json();
-        logMessage(`📝 Caption: ${capData.caption}`);
-
-        const apprRes = await fetch(`${backend}/approve-image/${encodeURIComponent(filename)}`);
-        if (!apprRes.ok) throw new Error('Approval failed');
-        logMessage(`🧠 Approved ${filename}`);
+        logMessage(`✅ Queued for processing as ${filename}`);
       } catch (err: any) {
         logMessage(`❌ Error: ${err.message}`);
       }
     }
-    logMessage('🎉 Done!');
+    logMessage('🎉 All uploads queued!');
   };
 
   return (
@@ -63,9 +58,25 @@ const BulkImageUploader: React.FC = () => {
       >
         Drag & drop images here
       </div>
-      {files.length > 0 && <button onClick={handleUpload}>Start Processing ({files.length})</button>}
-      <div style={{ marginTop: '1rem', fontFamily: 'monospace', background: '#eee', padding: '1rem', borderRadius: '6px', maxHeight: '200px', overflowY: 'auto' }}>
-        {log.map((line, idx) => <div key={idx}>{line}</div>)}
+      {files.length > 0 && (
+        <button onClick={handleUpload}>
+          Start Processing ({files.length})
+        </button>
+      )}
+      <div
+        style={{
+          marginTop: '1rem',
+          fontFamily: 'monospace',
+          background: '#eee',
+          padding: '1rem',
+          borderRadius: '6px',
+          maxHeight: '200px',
+          overflowY: 'auto'
+        }}
+      >
+        {log.map((line, idx) => (
+          <div key={idx}>{line}</div>
+        ))}
       </div>
     </div>
   );
